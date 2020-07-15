@@ -6,5 +6,24 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="minseok.riiidi_homework.presentation.view.list.ListFragment"
-        android:label="ListFragment" />
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/startDetailFragment"
+            app:destination="@id/detailFragment" >
+            <argument
+                android:name="postId"
+                app:argType="integer"
+                android:defaultValue="0" />
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="minseok.riiidi_homework.presentation.view.detail.DetailFragment"
+        android:label="DetailFragment" >
+        <argument
+            android:name="postId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

@@ -6,12 +6,17 @@ import kotlinx.android.synthetic.main.item_post.view.*
 import minseok.riiidi_homework.domain.Post
 
 class PostItemViewHolder(
-    view: View
+    view: View,
+    private val block: (Int) -> Unit
 ): RecyclerView.ViewHolder(view) {
     fun onBind(post: Post) {
         with(itemView) {
             title.text = post.title
             body.text = post.body
+
+            setOnClickListener {
+                block.invoke(post.id)
+            }
         }
     }
 }

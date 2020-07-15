@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import minseok.riiidi_homework.R
 import minseok.riiidi_homework.domain.Post
 
-class PostItemAdapter: RecyclerView.Adapter<PostItemViewHolder>() {
+class PostItemAdapter(
+    val block: (Int) -> Unit
+): RecyclerView.Adapter<PostItemViewHolder>() {
     var posts: List<Post> = listOf()
         set(value) {
             field = value
@@ -15,7 +17,8 @@ class PostItemAdapter: RecyclerView.Adapter<PostItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemViewHolder {
         return PostItemViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false),
+            block
         )
     }
 

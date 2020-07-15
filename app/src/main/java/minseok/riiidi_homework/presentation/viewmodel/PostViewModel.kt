@@ -14,4 +14,8 @@ class PostViewModel: ViewModel() {
     fun loadPosts() {
         _posts.value = SampleData.getSamplePosts()
     }
+
+    fun findPostBy(id: Int): Post? {
+        return SampleData.getSamplePosts().find { it.id == id }
+    }
 }

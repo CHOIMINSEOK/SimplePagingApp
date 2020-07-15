@@ -1,10 +1,10 @@
 package minseok.riiidi_homework.presentation.view.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_list.*
 import minseok.riiidi_homework.R
@@ -19,7 +19,7 @@ class ListFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val postAdapter = PostItemAdapter()
+        val postAdapter = PostItemAdapter(this::handlePostClick)
         list_post.adapter = postAdapter
         list_post.layoutManager = LinearLayoutManager(requireContext())
 
@@ -28,5 +28,10 @@ class ListFragment: BaseFragment() {
         })
 
         postViewModel.loadPosts()
+    }
+
+    private fun handlePostClick(postId: Int) {
+        val action = ListFragmentDirections.startDetailFragment(postId)
+        this.findNavController().navigate(action)
     }
 }
