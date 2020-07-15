@@ -5,6 +5,7 @@ buildscript {
         vOkHttp3 = '3.14.9'
         vRetrofit2 = '2.9.0'
         vNav = '2.3.0'
+        vHilt = '2.28-alpha'
     }
 
     repositories {
@@ -15,6 +16,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:4.0.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$vKotlin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$vNav"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$vHilt"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

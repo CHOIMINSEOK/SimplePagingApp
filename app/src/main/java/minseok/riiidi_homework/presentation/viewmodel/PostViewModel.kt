@@ -1,21 +1,18 @@
 package minseok.riiidi_homework.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import minseok.riiidi_homework.data.SampleData
+import io.reactivex.Observable
+import minseok.riiidi_homework.domain.PostRepository
 import minseok.riiidi_homework.domain.Post
+import javax.inject.Inject
 
-class PostViewModel: ViewModel() {
-    private val _posts: MutableLiveData<List<Post>> = MutableLiveData<List<Post>>()
+class PostViewModel @Inject constructor(
+    private val postRepository: PostRepository
+) : ViewModel() {
+    val posts: Observable<List<Post>> = postRepository.getPosts()
 
-    val posts: LiveData<List<Post>> = _posts
-
-    fun loadPosts() {
-        _posts.value = SampleData.getSamplePosts()
-    }
-
-    fun findPostBy(id: Int): Post? {
-        return SampleData.getSamplePosts().find { it.id == id }
+    fun findPostBy(id: Int): Observable<Post> {
+        return posts.flatMapIterable { it }
+            .filter { it.id == id }
     }
 }
