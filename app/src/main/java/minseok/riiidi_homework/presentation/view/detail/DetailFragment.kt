@@ -1,8 +1,10 @@
 package minseok.riiidi_homework.presentation.view.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.*
 import minseok.riiidi_homework.R
@@ -22,6 +24,10 @@ class DetailFragment: BaseFragment() {
 
         val postId = arg.postId
 
+        val commentAdapter = CommentItemAdapter()
+        list_comment.adapter = commentAdapter
+        list_comment.layoutManager = LinearLayoutManager(requireContext())
+
         postViewModel.findPostBy(postId)
             .bind({
                 tv_title.text = it.title
@@ -29,6 +35,13 @@ class DetailFragment: BaseFragment() {
             }, {
                 it.printStackTrace()
             })
+
+        postViewModel.comments.bind({ comments ->
+            commentAdapter.comments = comments
+
+        }, { it.printStackTrace() } )
+
+        postViewModel.loadComments(postId)
     }
 
 }
