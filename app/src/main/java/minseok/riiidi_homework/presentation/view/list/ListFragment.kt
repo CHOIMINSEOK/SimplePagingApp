@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_list.*
 import minseok.riiidi_homework.R
 import minseok.riiidi_homework.presentation.view.base.BaseFragment
@@ -26,9 +27,14 @@ class ListFragment: BaseFragment() {
         list_post.adapter = postAdapter
         list_post.layoutManager = LinearLayoutManager(requireContext())
 
-        postViewModel.posts.subscribe { items ->
-            postAdapter.posts = items
-        }.collectDisposable()
+        postViewModel.posts
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe( { items ->
+                postAdapter.posts = items
+            }, {
+                it.printStackTrace()
+            }).collectDisposable()
+
 
     }
 

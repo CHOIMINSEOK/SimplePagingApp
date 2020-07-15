@@ -70,6 +70,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:2.2.19"
     implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
     implementation "androidx.lifecycle:lifecycle-reactivestreams:2.2.0"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     /* DI */
     implementation "com.google.dagger:hilt-android:$vHilt"
