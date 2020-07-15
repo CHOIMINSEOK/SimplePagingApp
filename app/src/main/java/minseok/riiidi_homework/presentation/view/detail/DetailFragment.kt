@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_detail.*
 import minseok.riiidi_homework.R
 import minseok.riiidi_homework.presentation.view.base.BaseFragment
@@ -24,12 +23,12 @@ class DetailFragment: BaseFragment() {
         val postId = arg.postId
 
         postViewModel.findPostBy(postId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+            .bind({
                 tv_title.text = it.title
                 tv_body.text = it.body
-            }
-            .collectDisposable()
+            }, {
+                it.printStackTrace()
+            })
     }
 
 }

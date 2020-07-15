@@ -28,14 +28,11 @@ class ListFragment: BaseFragment() {
         list_post.layoutManager = LinearLayoutManager(requireContext())
 
         postViewModel.posts
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe( { items ->
+            .bind({ items ->
                 postAdapter.posts = items
             }, {
                 it.printStackTrace()
-            }).collectDisposable()
-
-
+            })
     }
 
     private fun handlePostClick(postId: Int) {
