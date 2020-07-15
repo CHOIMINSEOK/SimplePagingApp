@@ -1,4 +1,4 @@
-package minseok.riiidi_homework.presentation.base
+package minseok.riiidi_homework.presentation.view.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

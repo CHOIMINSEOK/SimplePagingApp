@@ -5,6 +5,6 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="minseok.riiidi_homework.presentation.view.ListFragment"
+        android:name="minseok.riiidi_homework.presentation.view.list.ListFragment"
         android:label="ListFragment" />
 </navigation>
