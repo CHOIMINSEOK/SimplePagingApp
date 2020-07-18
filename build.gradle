@@ -6,6 +6,7 @@ buildscript {
         vRetrofit2 = '2.9.0'
         vNav = '2.3.0'
         vHilt = '2.28-alpha'
+        vPaging = "3.0.0-alpha02"
     }
 
     repositories {

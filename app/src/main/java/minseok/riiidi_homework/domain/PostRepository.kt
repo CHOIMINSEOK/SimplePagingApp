@@ -1,9 +1,10 @@
 package minseok.riiidi_homework.domain
 
-import io.reactivex.Observable
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
-    fun getPosts(): Observable<List<Post>>
-    fun getComments(): Observable<List<Comment>>
-    fun loadComments(postId: Int)
+    fun getPostStreams(): Flow<PagingData<Post>>
+    suspend fun getPost(postId: Int): Post
+    suspend fun getComments(postId: Int): List<Comment>
 }

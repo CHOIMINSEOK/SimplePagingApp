@@ -9,13 +9,16 @@ class PostItemViewHolder(
     view: View,
     private val block: (Int) -> Unit
 ): RecyclerView.ViewHolder(view) {
-    fun onBind(post: Post) {
+    fun onBind(post: Post?) {
         with(itemView) {
-            title.text = post.title
-            body.text = post.body
+            title.text = post?.title
+            body.text = post?.body
 
             setOnClickListener {
-                block.invoke(post.id)
+                post?.let {
+                    block.invoke(it.id)
+                }
+
             }
         }
     }

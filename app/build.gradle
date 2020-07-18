@@ -35,6 +35,7 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
 }
 
@@ -64,16 +65,14 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation "com.squareup.retrofit2:retrofit:$vRetrofit2"
     implementation "com.squareup.retrofit2:converter-gson:$vRetrofit2"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$vRetrofit2"
-
-    /* RxJava */
-    implementation "io.reactivex.rxjava2:rxjava:2.2.19"
-    implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams:2.2.0"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     /* DI */
     implementation "com.google.dagger:hilt-android:$vHilt"
     kapt "com.google.dagger:hilt-android-compiler:$vHilt"
+
+
+    /* Paging */
+    implementation "androidx.paging:paging-runtime:$vPaging"
+    implementation "androidx.paging:paging-rxjava2:$vPaging"
 
 }

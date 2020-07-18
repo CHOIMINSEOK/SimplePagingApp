@@ -2,13 +2,14 @@ package minseok.riiidi_homework.presentation.view.list
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import minseok.riiidi_homework.R
 import minseok.riiidi_homework.presentation.view.base.BaseFragment
 import minseok.riiidi_homework.presentation.viewmodel.PostViewModel
@@ -27,12 +28,12 @@ class ListFragment: BaseFragment() {
         list_post.adapter = postAdapter
         list_post.layoutManager = LinearLayoutManager(requireContext())
 
-        postViewModel.posts
-            .bind({ items ->
-                postAdapter.posts = items
-            }, {
-                it.printStackTrace()
-            })
+        lifecycleScope.launch {
+            @OptIn(ExperimentalCoroutinesApi::class)
+            postViewModel.posts.collectLatest {
+                postAdapter.submitData(it)
+            }
+        }
     }
 
     private fun handlePostClick(postId: Int) {

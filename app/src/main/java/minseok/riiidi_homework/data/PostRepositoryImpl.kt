@@ -1,41 +1,37 @@
 package minseok.riiidi_homework.data
 
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
-import minseok.riiidi_homework.app.SchedulerProvider
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import minseok.riiidi_homework.data.remote.PostAPIService
 import minseok.riiidi_homework.data.remote.DataMapper
+import minseok.riiidi_homework.data.remote.PostDataPagingSource
 import minseok.riiidi_homework.domain.Comment
 import minseok.riiidi_homework.domain.Post
 import minseok.riiidi_homework.domain.PostRepository
 import javax.inject.Inject
 
 class PostRepositoryImpl @Inject constructor(
-    private val postAPIService: PostAPIService,
-    private val schedulerProvider: SchedulerProvider
+    private val postAPIService: PostAPIService
 ) : PostRepository {
-    private val postIdSubject: PublishSubject<Int> = PublishSubject.create()
-    private val commentObservable: Observable<List<Comment>> =
-        postIdSubject.switchMapSingle {
-            postAPIService.getComments(it)
-                .subscribeOn(schedulerProvider.io())
-                .map { list -> list.map(DataMapper::mapFromCommentDataToComment) }
-        }
-
-    override fun getPosts(): Observable<List<Post>> {
-        return postAPIService.getPosts(1, 10)
-            .subscribeOn(schedulerProvider.io())
-            .map { list -> list.map(DataMapper::mapFromPostDataToPost)}
-            .toObservable()
+    override fun getPostStreams(): Flow<PagingData<Post>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 30,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PostDataPagingSource(postAPIService) }
+        ).flow
     }
 
 
-    override fun getComments(): Observable<List<Comment>> {
-        return commentObservable
+    override suspend fun getComments(postId: Int): List<Comment> {
+        return postAPIService.getComments(postId).map(DataMapper::mapFromCommentDataToComment)
     }
 
-    override fun loadComments(postId: Int) {
-        postIdSubject.onNext(postId)
+    override suspend fun getPost(postId: Int): Post {
+        return DataMapper.mapFromPostDataToPost(postAPIService.getPost(postId))
     }
 
 }

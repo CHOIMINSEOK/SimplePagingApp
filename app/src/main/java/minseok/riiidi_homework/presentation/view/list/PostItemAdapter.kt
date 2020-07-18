@@ -2,19 +2,15 @@ package minseok.riiidi_homework.presentation.view.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import minseok.riiidi_homework.R
 import minseok.riiidi_homework.domain.Post
 
 class PostItemAdapter(
     val block: (Int) -> Unit
-): RecyclerView.Adapter<PostItemViewHolder>() {
-    var posts: List<Post> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
+): PagingDataAdapter<Post, PostItemViewHolder>(POST_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemViewHolder {
         return PostItemViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false),
@@ -23,10 +19,16 @@ class PostItemAdapter(
     }
 
     override fun onBindViewHolder(holder: PostItemViewHolder, position: Int) {
-        holder.onBind(posts[position])
+        holder.onBind(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return posts.count()
+    companion object {
+        private val POST_COMPARATOR = object : DiffUtil.ItemCallback<Post>() {
+            override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean =
+                oldItem == newItem
+        }
     }
 }

@@ -3,13 +3,16 @@ package minseok.riiidi_homework.presentation.view.detail
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.coroutines.launch
 import minseok.riiidi_homework.R
 import minseok.riiidi_homework.presentation.view.base.BaseFragment
 import minseok.riiidi_homework.presentation.viewmodel.PostViewModel
+import java.lang.Error
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,20 +31,18 @@ class DetailFragment: BaseFragment() {
         list_comment.adapter = commentAdapter
         list_comment.layoutManager = LinearLayoutManager(requireContext())
 
-        postViewModel.findPostBy(postId)
-            .bind({
-                tv_title.text = it.title
-                tv_body.text = it.body
-            }, {
-                it.printStackTrace()
-            })
+        lifecycleScope.launch {
+            try {
+                val post = postViewModel.findPostBy(postId)
+                tv_title.text = post.title
+                tv_body.text = post.body
 
-        postViewModel.comments.bind({ comments ->
-            commentAdapter.comments = comments
-
-        }, { it.printStackTrace() } )
-
-        postViewModel.loadComments(postId)
+                val comments = postViewModel.loadComments(postId)
+                commentAdapter.comments = comments
+            } catch (e: Error) {
+                e.printStackTrace()
+            }
+        }
     }
 
 }
