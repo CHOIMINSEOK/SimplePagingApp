@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Riiidi_Homework</string>
+    <string name="dialog_update">업데이트</string>
+    <string name="dialog_cancel">취소</string>
 </resources>

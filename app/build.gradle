@@ -75,4 +75,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime:$vPaging"
     implementation "androidx.paging:paging-rxjava2:$vPaging"
 
+    /* UI */
+    implementation 'com.afollestad.material-dialogs:core:3.2.1'
+
 }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import minseok.riiidi_homework.data.remote.PostAPIService
 import minseok.riiidi_homework.data.remote.DataMapper
 import minseok.riiidi_homework.data.remote.PostDataPagingSource
+import minseok.riiidi_homework.data.remote.model.PostUpdatePayload
 import minseok.riiidi_homework.domain.Comment
 import minseok.riiidi_homework.domain.Post
 import minseok.riiidi_homework.domain.PostRepository
@@ -32,6 +33,10 @@ class PostRepositoryImpl @Inject constructor(
 
     override suspend fun getPost(postId: Int): Post {
         return DataMapper.mapFromPostDataToPost(postAPIService.getPost(postId))
+    }
+
+    override suspend fun updatePost(postId: Int, payload: PostUpdatePayload): Post {
+        return DataMapper.mapFromPostDataToPost(postAPIService.updatePost(postId, payload))
     }
 
     override suspend fun deletePost(postId: Int) {

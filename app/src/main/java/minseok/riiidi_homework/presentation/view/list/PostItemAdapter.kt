@@ -25,7 +25,7 @@ class PostItemAdapter(
     companion object {
         private val POST_COMPARATOR = object : DiffUtil.ItemCallback<Post>() {
             override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean =
-                oldItem.id == newItem.id
+                oldItem.id == newItem.id && oldItem.title == newItem.title && oldItem.body == newItem.body
 
             override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean =
                 oldItem == newItem

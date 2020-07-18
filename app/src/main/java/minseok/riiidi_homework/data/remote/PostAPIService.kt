@@ -3,11 +3,9 @@ package minseok.riiidi_homework.data.remote
 import io.reactivex.Single
 import minseok.riiidi_homework.data.remote.model.CommentData
 import minseok.riiidi_homework.data.remote.model.PostData
+import minseok.riiidi_homework.data.remote.model.PostUpdatePayload
 import retrofit2.Call
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface PostAPIService {
     @GET("posts")
@@ -21,4 +19,7 @@ interface PostAPIService {
 
     @DELETE("posts/{id}")
     suspend fun deletePost(@Path("id") id: Int)
+
+    @PATCH("posts/{id}")
+    suspend fun updatePost(@Path("id") id: Int, @Body payload: PostUpdatePayload): PostData
 }

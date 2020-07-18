@@ -24,7 +24,7 @@ class PostItemViewHolder(
                  setOnCreateContextMenuListener { contextMenu, view, _ ->
                      contextMenu?.apply {
                          add(0, view.id, 0, "수정하기").setOnMenuItemClickListener {
-                             block.invoke(Action.UpdatePost(post.id))
+                             block.invoke(Action.UpdatePost(post.id, absoluteAdapterPosition))
                              true
                          }
                          add(0, view.id, 0, "삭제하기").setOnMenuItemClickListener {

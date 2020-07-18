@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import io.reactivex.Observable
 import kotlinx.coroutines.flow.Flow
+import minseok.riiidi_homework.data.remote.model.PostUpdatePayload
 import minseok.riiidi_homework.domain.Comment
 import minseok.riiidi_homework.domain.PostRepository
 import minseok.riiidi_homework.domain.Post
@@ -18,6 +19,10 @@ class PostViewModel @Inject constructor(
 
     suspend fun findPostBy(id: Int): Post {
         return postRepository.getPost(id)
+    }
+
+    suspend fun updatePost(id: Int, title: String?, body: String?): Post {
+        return postRepository.updatePost(id, PostUpdatePayload(title, body))
     }
 
     suspend fun deletePost(id: Int) {
