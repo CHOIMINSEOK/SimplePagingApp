@@ -20,6 +20,10 @@ class PostViewModel @Inject constructor(
         return postRepository.getPost(id)
     }
 
+    suspend fun deletePost(id: Int) {
+        postRepository.deletePost(id)
+    }
+
     suspend fun loadComments(postId: Int):  List<Comment> {
         return postRepository.getComments(postId)
     }

@@ -4,6 +4,7 @@ import io.reactivex.Single
 import minseok.riiidi_homework.data.remote.model.CommentData
 import minseok.riiidi_homework.data.remote.model.PostData
 import retrofit2.Call
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -17,4 +18,7 @@ interface PostAPIService {
 
     @GET("posts/{id}/comments")
     suspend fun getComments(@Path("id") id: Int): List<CommentData>
+
+    @DELETE("posts/{id}")
+    suspend fun deletePost(@Path("id") id: Int)
 }

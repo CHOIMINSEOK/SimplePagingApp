@@ -34,4 +34,7 @@ class PostRepositoryImpl @Inject constructor(
         return DataMapper.mapFromPostDataToPost(postAPIService.getPost(postId))
     }
 
+    override suspend fun deletePost(postId: Int) {
+        postAPIService.deletePost(postId)
+    }
 }

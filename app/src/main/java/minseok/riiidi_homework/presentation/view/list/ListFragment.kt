@@ -1,6 +1,7 @@
 package minseok.riiidi_homework.presentation.view.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -21,10 +22,11 @@ class ListFragment: BaseFragment() {
 
     @Inject lateinit var postViewModel: PostViewModel
 
+    private val postAdapter = PostItemAdapter(this::handlePostClick)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val postAdapter = PostItemAdapter(this::handlePostClick)
+
         list_post.adapter = postAdapter
         list_post.layoutManager = LinearLayoutManager(requireContext())
 
@@ -36,8 +38,30 @@ class ListFragment: BaseFragment() {
         }
     }
 
-    private fun handlePostClick(postId: Int) {
-        val action = ListFragmentDirections.startDetailFragment(postId)
-        this.findNavController().navigate(action)
+    private fun handlePostClick(action: Action) {
+        when(action) {
+            is Action.GoDetail -> {
+                this.findNavController().navigate(
+                    ListFragmentDirections.startDetailFragment(action.id)
+                )
+            }
+
+            is Action.UpdatePost -> {
+                Log.d("TAG", "UPDATE POST")
+            }
+
+            is Action.DeletePost -> {
+                lifecycleScope.launch {
+                    postViewModel.deletePost(action.id)
+                    postAdapter.notifyItemRemoved(action.position)
+                }
+            }
+        }
     }
+}
+
+sealed class Action {
+    class GoDetail(val id: Int): Action()
+    class UpdatePost(val id: Int): Action()
+    class DeletePost(val id: Int, val position: Int): Action()
 }

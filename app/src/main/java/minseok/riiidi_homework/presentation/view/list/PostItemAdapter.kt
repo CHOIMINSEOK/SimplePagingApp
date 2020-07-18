@@ -9,7 +9,7 @@ import minseok.riiidi_homework.R
 import minseok.riiidi_homework.domain.Post
 
 class PostItemAdapter(
-    val block: (Int) -> Unit
+    val block: (Action) -> Unit
 ): PagingDataAdapter<Post, PostItemViewHolder>(POST_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostItemViewHolder {
         return PostItemViewHolder(

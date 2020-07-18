@@ -7,7 +7,7 @@ import minseok.riiidi_homework.domain.Post
 
 class PostItemViewHolder(
     view: View,
-    private val block: (Int) -> Unit
+    private val block: (Action) -> Unit
 ): RecyclerView.ViewHolder(view) {
     fun onBind(post: Post?) {
         with(itemView) {
@@ -16,10 +16,26 @@ class PostItemViewHolder(
 
             setOnClickListener {
                 post?.let {
-                    block.invoke(it.id)
+                    block.invoke(Action.GoDetail(it.id))
                 }
-
             }
+
+             post?.let {
+                 setOnCreateContextMenuListener { contextMenu, view, _ ->
+                     contextMenu?.apply {
+                         add(0, view.id, 0, "수정하기").setOnMenuItemClickListener {
+                             block.invoke(Action.UpdatePost(post.id))
+                             true
+                         }
+                         add(0, view.id, 0, "삭제하기").setOnMenuItemClickListener {
+                             block.invoke(Action.DeletePost(post.id, absoluteAdapterPosition))
+                             true
+                         }
+                     }
+                 }
+
+             }
         }
     }
+
 }
