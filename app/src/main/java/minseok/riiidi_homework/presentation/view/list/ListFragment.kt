@@ -39,21 +39,22 @@ class ListFragment: BaseFragment() {
             postViewModel.posts.collectLatest {
                 postAdapter.submitData(it)
             }
+
+
         }
     }
 
-    private fun updatePostItem(postId: Int, title: String?, body: String?, adapterPosition: Int) {
+    private fun updatePostItem(postId: Int, title: String?, body: String?) {
         lifecycleScope.launch {
-            val updatedPost = postViewModel.updatePost(postId, title, body)
-            Log.d("TAG", updatedPost.toString())
-            postAdapter.notifyItemChanged(adapterPosition, updatedPost)
+            postViewModel.updatePost(postId, title, body)
+            postAdapter.refresh()
         }
     }
 
-    private fun deletePostItem(postId: Int, adapterPosition: Int) {
+    private fun deletePostItem(postId: Int) {
         lifecycleScope.launch {
             postViewModel.deletePost(postId)
-            postAdapter.notifyItemRemoved(adapterPosition)
+            postAdapter.refresh()
         }
     }
 
@@ -73,14 +74,14 @@ class ListFragment: BaseFragment() {
                         val etTitle = dialog.getCustomView().findViewById<EditText>(R.id.et_title)
                         val etBody = dialog.getCustomView().findViewById<EditText>(R.id.et_body)
 
-                        updatePostItem(action.id, etTitle.text.toString(), etBody.text.toString(), action.position)
+                        updatePostItem(action.id, etTitle.text.toString(), etBody.text.toString())
                     }
                     negativeButton(R.string.dialog_cancel)
                 }
             }
 
             is Action.DeletePost -> {
-                deletePostItem(action.id, action.position)
+                deletePostItem(action.id)
             }
         }
     }
@@ -88,6 +89,6 @@ class ListFragment: BaseFragment() {
 
 sealed class Action {
     class GoDetail(val id: Int): Action()
-    class UpdatePost(val id: Int, val position: Int): Action()
-    class DeletePost(val id: Int, val position: Int): Action()
+    class UpdatePost(val id: Int): Action()
+    class DeletePost(val id: Int): Action()
 }

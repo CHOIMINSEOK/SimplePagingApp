@@ -21,8 +21,8 @@ class PostViewModel @Inject constructor(
         return postRepository.getPost(id)
     }
 
-    suspend fun updatePost(id: Int, title: String?, body: String?): Post {
-        return postRepository.updatePost(id, PostUpdatePayload(title, body))
+    suspend fun updatePost(id: Int, title: String?, body: String?) {
+        postRepository.updatePost(id, PostUpdatePayload(title, body))
     }
 
     suspend fun deletePost(id: Int) {
