@@ -74,7 +74,11 @@ class ListFragment: BaseFragment() {
                         val etTitle = dialog.getCustomView().findViewById<EditText>(R.id.et_title)
                         val etBody = dialog.getCustomView().findViewById<EditText>(R.id.et_body)
 
-                        updatePostItem(action.id, etTitle.text.toString(), etBody.text.toString())
+                        updatePostItem(
+                            action.id,
+                            if (etTitle.text.isEmpty()) null else etTitle.text.toString(),
+                            if (etBody.text.isEmpty()) null else etBody.text.toString()
+                        )
                     }
                     negativeButton(R.string.dialog_cancel)
                 }
